@@ -263,9 +263,9 @@ function HostelGenieCard() {
           <InlineCarousel images={HOSTELGENIE_IMAGES} />
         </div>
 
-        {/* Right pane — architecture beam, full vertical height */}
+        {/* Right pane — architecture beam, hidden on mobile, full vertical height on desktop */}
         <div
-          className="lg:w-1/2 flex flex-col border-t lg:border-t-0 lg:border-l"
+          className="hidden lg:flex lg:w-1/2 flex-col border-l"
           style={{ borderColor: 'rgba(255,255,255,0.06)' }}
         >
           <p className="text-[10px] font-mono uppercase tracking-widest px-6 pt-6 pb-2" style={{ color: '#2d3748' }}>
@@ -302,9 +302,8 @@ function SignSyncCard() {
         className="card-glass noise-bg p-6 sm:p-8 flex flex-col gap-5 h-full group relative overflow-hidden cursor-default"
         aria-labelledby="signsync-title"
       >
-        {/* Hackathon badge */}
-        <div
-          className="absolute top-4 right-4 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-bold tracking-wider"
+        {/* Hackathon badge — inline on mobile, absolute on sm+ to avoid overlap */}
+        <div className="sm:absolute sm:top-4 sm:right-4 mb-2 sm:mb-0 self-start flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-bold tracking-wider"
           style={{
             background: 'linear-gradient(135deg, rgba(251,146,60,0.2), rgba(251,146,60,0.05))',
             border: '1px solid rgba(251,146,60,0.3)',
@@ -316,7 +315,7 @@ function SignSyncCard() {
         </div>
 
         <div className="flex items-start justify-between gap-4">
-          <div className="pr-24">
+          <div>
             <p className="text-xs font-mono mb-1.5" style={{ color: '#475569' }}>
               Gamified ISL Learning Platform
             </p>
