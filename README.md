@@ -43,7 +43,7 @@ A comprehensive facility and student management system built to streamline hoste
 ### 2. SignSync
 An interactive, gamified web application designed to teach Indian Sign Language through modern UI and real-time feedback loops.
 * **Stack:** React, Node.js, Express.
-* **Impact:** Took 1st place at the Brainwave 2.0 Hackathon by prioritizing accessibility and high-performance UI.
+
 
 ## 📈 GitHub Stats
 <!-- You can add standard GitHub stat cards here using an open-source tool like github-readme-stats -->
