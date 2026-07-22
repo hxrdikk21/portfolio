@@ -16,15 +16,15 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Hardik Sachdeva — Frontend · Full-Stack · ML Developer',
+  title: 'Hardik Sachdeva — Developer · ML Engineer · Aspiring Entrepreneur',
   description:
-    'Portfolio of Hardik Sachdeva — CS&E student at DTU, full-stack MERN developer, and 2× hackathon champion (Google × AIMS-DTU). Specialising in next-level frontend UI/UX, robust MERN systems, and end-to-end ML pipelines.',
+    'CSE student at Delhi Technological University. Specializing in full-stack MERN systems, end-to-end Machine Learning pipelines , and Innovative Solutions.',
   keywords: ['Hardik Sachdeva', 'full-stack developer', 'React', 'Node.js', 'portfolio', 'hackathon', 'Next.js', 'DTU', 'machine learning', 'MERN'],
   authors: [{ name: 'Hardik Sachdeva' }],
   openGraph: {
-    title: 'Hardik Sachdeva — Frontend · Full-Stack · ML Developer',
-    description:
-      'CS&E student at DTU specialising in next-level frontend UI/UX, robust full-stack MERN systems, and end-to-end ML pipelines. 2× hackathon champion.',
+  title: 'Hardik Sachdeva — Developer · ML Engineer · Aspiring Entrepreneur',
+  description:
+    'CSE student at Delhi Technological University. Specializing in full-stack MERN systems, end-to-end Machine Learning pipelines , and Innovative Solutions.',
     type: 'website',
   },
 }
