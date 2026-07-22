@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import dynamic from 'next/dynamic'
+import { useEffect, useState } from 'react'
 import { FaTrophy, FaBriefcase, FaGraduationCap } from 'react-icons/fa6'
 
 const GitHubCalendar = dynamic(
@@ -57,6 +58,21 @@ const calendarTheme = {
 }
 
 export default function ExperienceSection() {
+  // Responsive calendar sizing — read once after mount (SSR safe)
+  const [calendarConfig, setCalendarConfig] = useState<{
+    blockSize: number
+    blockMargin: number
+    fontSize: number
+  } | null>(null)
+
+  useEffect(() => {
+    const isMobile = window.innerWidth < 768
+    setCalendarConfig(
+      isMobile
+        ? { blockSize: 10, blockMargin: 2, fontSize: 10 }   // compact for phones
+        : { blockSize: 14, blockMargin: 4, fontSize: 12 }   // roomy for desktop
+    )
+  }, [])
   return (
     <section id="experience" className="section-padding" aria-label="Experience and Achievements">
       <div className="max-w-content">
@@ -105,15 +121,17 @@ export default function ExperienceSection() {
             </span>
           </div>
           <div className="overflow-x-auto">
-            <GitHubCalendar
-              username="hxrdikk21"
-              colorScheme="dark"
-              theme={calendarTheme}
-              fontSize={10}
-              blockSize={10}
-              blockMargin={2}
-              style={{ color: '#64748b' }}
-            />
+            {calendarConfig && (
+              <GitHubCalendar
+                username="hxrdikk21"
+                colorScheme="dark"
+                theme={calendarTheme}
+                fontSize={calendarConfig.fontSize}
+                blockSize={calendarConfig.blockSize}
+                blockMargin={calendarConfig.blockMargin}
+                style={{ color: '#64748b' }}
+              />
+            )}
           </div>
         </motion.div>
 
