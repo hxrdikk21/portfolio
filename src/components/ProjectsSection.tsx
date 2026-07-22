@@ -126,10 +126,16 @@ type CarouselImage = { src: string; alt: string }
 function InlineCarousel({ images }: { images: CarouselImage[] }) {
   const [current, setCurrent] = useState(0)
   const [paused,  setPaused]  = useState(false)
+  const [isTouch, setIsTouch] = useState(false)
   const n = images.length
 
   const prev = useCallback(() => setCurrent((c) => (c - 1 + n) % n), [n])
   const next = useCallback(() => setCurrent((c) => (c + 1) % n),     [n])
+
+  // Detect touch/pointer device once on mount
+  useEffect(() => {
+    setIsTouch(window.matchMedia('(hover: none)').matches)
+  }, [])
 
   // Auto-advance every 4 s, pause on hover
   useEffect(() => {
@@ -155,6 +161,8 @@ function InlineCarousel({ images }: { images: CarouselImage[] }) {
           src={img.src}
           alt={img.alt}
           className="ss-carousel__img"
+          loading="lazy"
+          decoding="async"
           onError={(e) => {
             ;(e.currentTarget as HTMLImageElement).style.display = 'none'
             const frame = e.currentTarget.parentElement
@@ -165,9 +173,10 @@ function InlineCarousel({ images }: { images: CarouselImage[] }) {
         <div className="ss-carousel__fallback" aria-hidden="true">
           <span>{img.alt[0]}</span>
         </div>
-        {/* Prev / Next */}
+        {/* Prev / Next — always visible on touch, hover-reveal on pointer */}
         <button
           className="ss-carousel__nav ss-carousel__nav--prev"
+          style={isTouch ? { opacity: 0.8, width: '2.5rem', height: '2.5rem' } : undefined}
           onClick={prev}
           aria-label="Previous image"
         >
@@ -175,6 +184,7 @@ function InlineCarousel({ images }: { images: CarouselImage[] }) {
         </button>
         <button
           className="ss-carousel__nav ss-carousel__nav--next"
+          style={isTouch ? { opacity: 0.8, width: '2.5rem', height: '2.5rem' } : undefined}
           onClick={next}
           aria-label="Next image"
         >

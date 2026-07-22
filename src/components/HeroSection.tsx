@@ -128,7 +128,7 @@ function ProfileImage() {
       ref={ref}
       onMouseMove={handleMove}
       onMouseLeave={handleLeave}
-      style={{ perspective: '900px', position: 'relative', width: '280px', height: '280px', margin: '0 auto' }}
+      style={{ perspective: '900px', position: 'relative', width: 'clamp(180px, 55vw, 280px)', height: 'clamp(180px, 55vw, 280px)', margin: '0 auto' }}
       className="w-full"
     >
       <motion.div style={{ rotateX: sx, rotateY: sy, width: '100%', height: '100%' }}>
@@ -191,7 +191,7 @@ export default function HeroSection() {
       id="hero"
       className="relative min-h-screen flex flex-col justify-center overflow-hidden"
       aria-label="Hero"
-      style={{ paddingBottom: '80px', paddingTop: '80px' }} // Account for marquee
+      style={{ paddingBottom: '80px', paddingTop: '7rem' }} // 112px — clears fixed navbar (16px top + ~52px pill + gap)
     >
       {/* Dot grid + spotlight background */}
       <DotBackground />
@@ -203,8 +203,8 @@ export default function HeroSection() {
           position: 'absolute',
           top: '20%',
           left: '10%',
-          width: '320px',
-          height: '320px',
+          width: 'min(320px, 80vw)',
+          height: 'min(320px, 80vw)',
           borderRadius: '50%',
           background: 'radial-gradient(circle, rgba(34,211,238,0.06) 0%, transparent 70%)',
           filter: 'blur(40px)',
@@ -218,8 +218,8 @@ export default function HeroSection() {
           position: 'absolute',
           bottom: '20%',
           right: '10%',
-          width: '320px',
-          height: '320px',
+          width: 'min(320px, 80vw)',
+          height: 'min(320px, 80vw)',
           borderRadius: '50%',
           background: 'radial-gradient(circle, rgba(110,231,183,0.06) 0%, transparent 70%)',
           filter: 'blur(40px)',
@@ -229,14 +229,14 @@ export default function HeroSection() {
       />
 
       {/* Main Orbital Container */}
-      <div className="relative z-10 w-full max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-8 items-center justify-center">
+      <div className="relative z-10 w-full max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-8 items-center justify-center px-4 sm:px-6">
         
         {/* ── LEFT ORBIT: Typography & Bio ── */}
         <motion.div 
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="flex flex-col items-center text-center order-2 lg:order-1 px-6 lg:px-0"
+          className="flex flex-col items-center text-center order-2 lg:order-1 lg:px-0"
         >
           <h1 className="text-5xl sm:text-6xl xl:text-7xl font-extrabold tracking-tighter leading-[1.05] mb-4">
             Hardik<br/>
@@ -276,7 +276,7 @@ export default function HeroSection() {
           <motion.div
             animate={{ y: [-10, 10, -10] }}
             transition={{ repeat: Infinity, duration: 6, ease: 'easeInOut' }}
-            className="mb-10"
+            className="mb-6 sm:mb-10"
           >
             <ProfileImage />
           </motion.div>

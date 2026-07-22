@@ -184,6 +184,8 @@ export default function CertificationsSection() {
                       src={cert.image}
                       alt={`${cert.title} certificate`}
                       className="cf-card__image"
+                      loading="lazy"
+                      decoding="async"
                       onError={(e) => {
                         // Fallback to placeholder if URL 404s
                         ;(e.currentTarget as HTMLImageElement).style.display = 'none'

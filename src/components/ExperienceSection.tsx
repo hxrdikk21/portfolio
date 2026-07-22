@@ -109,9 +109,9 @@ export default function ExperienceSection() {
               username="hxrdikk21"
               colorScheme="dark"
               theme={calendarTheme}
-              fontSize={11}
-              blockSize={12}
-              blockMargin={3}
+              fontSize={10}
+              blockSize={10}
+              blockMargin={2}
               style={{ color: '#64748b' }}
             />
           </div>
