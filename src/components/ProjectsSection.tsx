@@ -231,7 +231,7 @@ function HostelGenieCard() {
               </h3>
             </div>
             <IconLinks
-              github="https://github.com/hxrdikk21"
+              github="https://github.com/hxrdikk21/hostelgenie-hub"
               demo="#"
               name="HostelGenie"
             />
@@ -385,7 +385,7 @@ function MLCard() {
             </h3>
           </div>
           <IconLinks
-            github="https://github.com/hxrdikk21"
+            github="https://github.com/hxrdikk21/movies-recommendation-system"
             demo="#"
             name="Movie Recommendation Engine"
           />
