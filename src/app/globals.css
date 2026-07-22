@@ -1,0 +1,690 @@
+@import "tailwindcss";
+
+/* ── Design System Tokens — Glassmorphism / Data Cyberpunk ── */
+:root {
+  /* ── Background depth layers ── */
+  --bg-base:          #020204;
+  --bg-depth-1:       #07080f;   /* hero */
+  --bg-depth-2:       #0a0b14;   /* projects */
+  --bg-depth-3:       #0d0e18;   /* experience */
+  --bg-depth-4:       #080910;   /* skills */
+  --bg-depth-5:       #0a0b14;   /* contact */
+
+  /* ── Glass surfaces — layered translucency ── */
+  --glass-xs:         rgba(255, 255, 255, 0.02);
+  --glass-sm:         rgba(255, 255, 255, 0.04);
+  --glass-md:         rgba(255, 255, 255, 0.06);
+  --glass-lg:         rgba(255, 255, 255, 0.09);
+  --glass-xl:         rgba(255, 255, 255, 0.13);
+
+  /* glass tinted with accent */
+  --glass-cyan-sm:    rgba(34, 211, 238, 0.04);
+  --glass-cyan-md:    rgba(34, 211, 238, 0.07);
+
+  /* Legacy alias */
+  --surface:          var(--glass-md);
+  --background:       var(--bg-base);
+  --background-secondary: var(--bg-depth-2);
+  --surface-solid:    #0D0D0D;
+
+  /* ── Borders — bright edge highlights for glass ── */
+  --border:           rgba(255, 255, 255, 0.07);
+  --border-mid:       rgba(255, 255, 255, 0.11);
+  --border-strong:    rgba(255, 255, 255, 0.18);
+  --border-cyan:      rgba(34, 211, 238, 0.3);
+
+  /* ── Typography ── */
+  --foreground:       #f0f4f8;
+  --foreground-muted: #8899aa;
+  --foreground-subtle:#4a5568;
+  --foreground-dim:   #2d3748;
+
+  /* ── Accent — Cyan / Aquamarine ── */
+  --accent:           #22d3ee;
+  --accent-hover:     #67e8f9;
+  --accent-emerald:   #6ee7b7;
+  --accent-dim:       rgba(34, 211, 238, 0.08);
+  --accent-dim-mid:   rgba(34, 211, 238, 0.14);
+
+  /* ── Gradient ── */
+  --gradient-cyber:   linear-gradient(135deg, #22d3ee 0%, #6ee7b7 100%);
+
+  /* ── Glass shadow system ── */
+  --shadow-glass-sm:  0 2px 8px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.04) inset;
+  --shadow-glass-md:  0 4px 24px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.06) inset;
+  --shadow-glass-lg:  0 8px 40px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.08) inset;
+  --shadow-card:      var(--shadow-glass-md);
+  --radius-card:      1rem;
+}
+
+/* ── Tailwind v4 theme extension ── */
+@theme inline {
+  --color-background:           var(--bg-base);
+  --color-background-secondary: var(--bg-depth-2);
+  --color-surface:              var(--glass-md);
+  --color-border:               var(--border);
+  --color-foreground:           var(--foreground);
+  --color-foreground-muted:     var(--foreground-muted);
+  --color-accent:               var(--accent);
+  --font-sans:                  var(--font-geist-sans);
+  --font-mono:                  var(--font-geist-mono);
+}
+
+/* ── Base reset ── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  overscroll-behavior-y: none;
+  overflow-x: hidden;
+}
+
+body {
+  overflow-x: hidden;
+  background: var(--bg-base);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection { background: var(--accent-dim); color: #6ee7b7; }
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ── Section depth backgrounds ── */
+.section-hero       { background: var(--bg-depth-1); }
+.section-projects   { background: var(--bg-depth-2); }
+.section-experience { background: var(--bg-depth-3); }
+.section-skills     { background: var(--bg-depth-4); }
+.section-contact    { background: var(--bg-depth-5); }
+
+/* ── Section dividers — faint gradient lines ── */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(34,211,238,0.12) 25%,
+    rgba(255,255,255,0.08) 50%,
+    rgba(110,231,183,0.12) 75%,
+    transparent 100%
+  );
+}
+
+/* ── Layout utilities ── */
+.section-padding {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+@media (min-width: 768px) {
+  .section-padding { padding-left: 3rem; padding-right: 3rem; }
+}
+@media (min-width: 1280px) {
+  .section-padding { padding-left: 6rem; padding-right: 6rem; }
+}
+
+.max-w-content { max-width: 1200px; margin-left: auto; margin-right: auto; }
+
+/* ═══════════════════════════════════════════
+   GLASSMORPHISM — subtle frost
+   ═══════════════════════════════════════════ */
+
+/* Default card — faint translucent surface */
+.card-glass {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-card);
+  box-shadow: 0 2px 16px rgba(0,0,0,0.4);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: border-color 0.25s ease, transform 0.25s ease;
+}
+.card-glass:hover {
+  border-color: rgba(34, 211, 238, 0.25);
+  transform: translateY(-3px);
+}
+
+/* Elevated glass — navbar, dropdowns */
+.glass-elevated {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: var(--radius-card);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.45);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* ── Gradient text ── */
+.gradient-text {
+  background-image: var(--gradient-cyber);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Marquee — infinite CSS scroll ── */
+@keyframes marquee-left {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes marquee-right {
+  0%   { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+.marquee-outer {
+  overflow: hidden;
+  width: 100%;
+  /* ensure this container never leaks width */
+  max-width: 100vw;
+}
+
+.marquee-track {
+  display: flex;
+  gap: 12px;
+  width: max-content;
+  will-change: transform;
+}
+
+.marquee-track--left {
+  animation: marquee-left 40s linear infinite;
+}
+
+.marquee-track--right {
+  animation: marquee-right 54s linear infinite;
+}
+
+.marquee-item {
+  flex-shrink: 0;
+}
+
+/* Pause on hover */
+.marquee-outer:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+/* ── Noise texture ── */
+.noise-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.018'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CERTIFICATIONS SECTION — 3D Coverflow Carousel
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Section background + depth depth-3 (between experience and skills) */
+.section-certifications { background: var(--bg-depth-3); }
+
+/* ── Section header helpers ── */
+.certifications-section .section-header {
+  margin-bottom: 3.5rem;
+  text-align: center;
+}
+.certifications-section .section-eyebrow {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.75rem;
+  opacity: 0.7;
+}
+.certifications-section .section-title {
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--foreground);
+  margin: 0 0 0.75rem;
+  line-height: 1.15;
+}
+.certifications-section .section-subtitle {
+  color: var(--foreground-muted);
+  font-size: 1rem;
+  max-width: 42ch;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* ── Outer wrapper: holds nav buttons + Swiper + pagination ── */
+.coverflow-wrapper {
+  position: relative;
+  width: 100%;
+  /* side padding leaves room for nav arrows */
+  padding: 0 3.5rem 3rem;
+  user-select: none;
+}
+@media (max-width: 640px) {
+  .coverflow-wrapper { padding: 0 2.5rem 2.5rem; }
+}
+
+/* ── Swiper container ── */
+.coverflow-swiper {
+  width: 100%;
+  /* perspective lives here so children can use 3D transforms */
+  perspective: 1200px;
+  /* Swiper shadow at top/bottom — give breathing room */
+  padding-top: 1.5rem !important;
+  padding-bottom: 2.5rem !important;
+  overflow: visible !important;
+}
+
+/* Each slide: fixed width so "auto" slidesPerView works */
+.cf-slide {
+  width: 320px !important;
+  flex-shrink: 0;
+  transition: opacity 0.45s ease, filter 0.45s ease;
+}
+
+/* Dim & blur non-active slides */
+.cf-slide:not(.swiper-slide-active) {
+  opacity: 0.5;
+  filter: brightness(0.55) saturate(0.6);
+}
+/* Fully visible active slide */
+.cf-slide.swiper-slide-active {
+  opacity: 1;
+  filter: brightness(1) saturate(1);
+}
+
+/* ── Card shell ── */
+.cf-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 1rem;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(34, 211, 238, 0.18);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.05) inset,
+    0 8px 40px rgba(0, 0, 0, 0.65),
+    0 0 30px rgba(34, 211, 238, 0.06);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: box-shadow 0.35s ease, border-color 0.35s ease;
+}
+
+.swiper-slide-active .cf-card {
+  border-color: rgba(34, 211, 238, 0.42);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.07) inset,
+    0 12px 56px rgba(0, 0, 0, 0.75),
+    0 0 55px rgba(34, 211, 238, 0.18),
+    0 0 20px rgba(110, 231, 183, 0.08);
+}
+
+/* ── Certificate image area (4:3) ── */
+.cf-card__image-wrap {
+  position: relative;
+  width: 100%;
+  /* 3:2 — matches common landscape certificate proportions (Coursera, Kaggle) */
+  aspect-ratio: 3 / 2;
+  background: radial-gradient(
+    ellipse at 40% 40%,
+    rgba(34, 211, 238, 0.06) 0%,
+    rgba(2, 2, 4, 0.95) 70%
+  );
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;            /* breathing room so cert never bleeds to edge */
+}
+
+.cf-card__image {
+  /* contain: show the whole certificate — no cropping ever */
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  z-index: 2;
+  border-radius: 4px;      /* match inner rounding to the card shell */
+  transition: opacity 0.3s ease;
+}
+
+/* Image loads → hide placeholder */
+.cf-card__image-wrap:not(.cf-card__image-wrap--fallback) .cert-placeholder {
+  display: none;
+}
+
+/* ── Placeholder face (shown when no valid image) ── */
+.cert-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 1.5rem;
+  text-align: center;
+  z-index: 1;
+  pointer-events: none;
+}
+.cert-placeholder__icon {
+  font-size: 2.8rem;
+  color: var(--accent);
+  opacity: 0.35;
+  filter: drop-shadow(0 0 10px rgba(34, 211, 238, 0.4));
+}
+.cert-placeholder__title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--foreground);
+  line-height: 1.3;
+  max-width: 22ch;
+  opacity: 0.7;
+}
+.cert-placeholder__issuer {
+  font-size: 0.7rem;
+  color: var(--foreground-muted);
+  opacity: 0.6;
+}
+
+/* Top-edge glow line on image area */
+.cf-card__image-wrap::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.5), transparent);
+  z-index: 3;
+}
+
+/* ── Text body below image ── */
+.cf-card__body {
+  padding: 1.1rem 1.25rem 1.4rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+.cf-card__title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #f0f4f8;       /* pure white */
+  line-height: 1.3;
+  margin: 0;
+}
+.cf-card__issuer {
+  font-size: 0.78rem;
+  color: var(--accent);
+  opacity: 0.8;
+  margin: 0;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+.cf-card__date {
+  font-size: 0.73rem;
+  color: #94a3b8;        /* slate-400 */
+  margin: 0;
+  letter-spacing: 0.04em;
+}
+
+/* ── Verify Credential button ── */
+.cf-card__verify-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  margin-top: 0.85rem;
+  padding: 0.45rem 1.1rem;
+  border-radius: 999px;          /* pill shape */
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--accent);          /* cyan text */
+  border: 1px solid rgba(34, 211, 238, 0.35);
+  background: rgba(34, 211, 238, 0.05);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition:
+    background   0.25s ease,
+    border-color 0.25s ease,
+    color        0.25s ease,
+    box-shadow   0.25s ease,
+    transform    0.2s ease;
+  cursor: pointer;
+  /* stop Swiper from intercepting the tap */
+  pointer-events: auto;
+  position: relative;
+  z-index: 10;
+}
+
+.cf-card__verify-btn:hover,
+.cf-card__verify-btn:focus-visible {
+  background: rgba(34, 211, 238, 0.14);
+  border-color: rgba(34, 211, 238, 0.7);
+  color: #fff;
+  box-shadow:
+    0 0 14px rgba(34, 211, 238, 0.3),
+    0 0 4px  rgba(110, 231, 183, 0.15);
+  transform: translateY(-1px);
+  outline: none;
+}
+
+.cf-card__verify-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 0 8px rgba(34, 211, 238, 0.2);
+}
+
+.cf-card__verify-icon {
+  font-size: 0.65rem;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.cf-card__verify-btn:hover .cf-card__verify-icon {
+  transform: translate(2px, -2px);  /* subtle arrow-launch on hover */
+}
+
+/* ── Custom navigation arrows ── */
+.cf-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-60%);
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 50%;
+  border: 1px solid rgba(34, 211, 238, 0.25);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--accent);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.cf-nav:hover {
+  background: rgba(34, 211, 238, 0.1);
+  border-color: rgba(34, 211, 238, 0.55);
+  box-shadow: 0 0 18px rgba(34, 211, 238, 0.25);
+}
+.cf-nav:disabled,
+.cf-nav[disabled] {
+  opacity: 0.25;
+  pointer-events: none;
+}
+.cf-nav--prev { left: 0.25rem; }
+.cf-nav--next { right: 0.25rem; }
+
+/* ── Swiper built-in shadow overrides ── */
+.swiper-slide-shadow-left,
+.swiper-slide-shadow-right {
+  background-image: linear-gradient(
+    to left,
+    rgba(2, 2, 4, 0.65),
+    rgba(2, 2, 4, 0)
+  ) !important;
+}
+
+/* ── Pagination dots ── */
+.cf-pagination {
+  display: flex;
+  justify-content: center;
+  gap: 0.45rem;
+  margin-top: 1.75rem;
+}
+
+/* Swiper injects .swiper-pagination-bullet inside .cf-pagination */
+.cf-pagination .swiper-pagination-bullet {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+  opacity: 1;
+  transition: background 0.25s ease, transform 0.25s ease, width 0.3s ease;
+  cursor: pointer;
+}
+.cf-pagination .swiper-pagination-bullet-active {
+  background: var(--accent);
+  width: 22px;
+  border-radius: 3px;
+  box-shadow: 0 0 8px rgba(34, 211, 238, 0.6);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   SIGNSYNC HACKATHON GALLERY — inline always-visible carousel
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Outer wrapper ── */
+.ss-carousel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border-top: 1px solid rgba(34, 211, 238, 0.12);  /* --border-cyan */
+  padding-top: 1rem;
+}
+
+/* ── Image frame (16:9) ── */
+.ss-carousel__frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 10px;
+  overflow: hidden;
+  background: radial-gradient(
+    ellipse at 40% 40%,
+    rgba(34, 211, 238, 0.06) 0%,    /* --accent cyan tint */
+    rgba(2, 2, 4, 0.97) 70%          /* --bg-base */
+  );
+  border: 1px solid rgba(34, 211, 238, 0.14);       /* --border-cyan dim */
+  box-shadow: 0 0 28px rgba(34, 211, 238, 0.05);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.ss-carousel:hover .ss-carousel__frame {
+  border-color: rgba(34, 211, 238, 0.28);
+  box-shadow: 0 0 36px rgba(34, 211, 238, 0.1);
+}
+
+/* The image — fades in on key change */
+.ss-carousel__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  animation: ss-fade-in 0.35s ease;
+}
+
+@keyframes ss-fade-in {
+  from { opacity: 0; transform: scale(1.03); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* Fallback letter block when image 404s */
+.ss-carousel__fallback {
+  position: absolute;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  font-weight: 900;
+  color: rgba(34, 211, 238, 0.12);   /* --accent dim */
+  pointer-events: none;
+}
+.ss-carousel__frame--fallback .ss-carousel__fallback { display: flex; }
+
+/* ── Prev / Next arrow buttons (overlaid on frame edges) ── */
+.ss-carousel__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  border: 1px solid rgba(34, 211, 238, 0.25);       /* --border-cyan */
+  background: rgba(2, 2, 4, 0.6);                   /* --bg-base semi */
+  color: rgba(34, 211, 238, 0.7);                   /* --accent */
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s ease, background 0.2s ease,
+              border-color 0.2s ease, box-shadow 0.2s ease;
+  z-index: 2;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.ss-carousel:hover .ss-carousel__nav { opacity: 1; }
+
+.ss-carousel__nav:hover {
+  background: rgba(34, 211, 238, 0.1);
+  border-color: rgba(34, 211, 238, 0.6);
+  box-shadow: 0 0 14px rgba(34, 211, 238, 0.25);    /* aquamarine glow */
+  color: #22d3ee;
+}
+.ss-carousel__nav--prev { left: 0.5rem; }
+.ss-carousel__nav--next { right: 0.5rem; }
+
+/* ── Dot strip ── */
+.ss-carousel__dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.4rem;
+  padding-top: 0.15rem;
+}
+.ss-carousel__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.15);
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.22s ease, width 0.28s ease, border-radius 0.28s ease;
+}
+.ss-carousel__dot--active {
+  /* gradient pill: cyan → aquamarine — matches --gradient-cyber */
+  background: linear-gradient(90deg, #22d3ee, #6ee7b7);
+  width: 20px;
+  border-radius: 3px;
+  box-shadow: 0 0 8px rgba(34, 211, 238, 0.45);
+}
