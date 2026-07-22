@@ -207,7 +207,8 @@ export default function HeroSection() {
           height: 'min(320px, 80vw)',
           borderRadius: '50%',
           background: 'radial-gradient(circle, rgba(34,211,238,0.06) 0%, transparent 70%)',
-          filter: 'blur(40px)',
+          willChange: 'transform',
+          transform: 'translateZ(0)',
           pointerEvents: 'none',
           zIndex: 0,
         }}
@@ -222,7 +223,8 @@ export default function HeroSection() {
           height: 'min(320px, 80vw)',
           borderRadius: '50%',
           background: 'radial-gradient(circle, rgba(110,231,183,0.06) 0%, transparent 70%)',
-          filter: 'blur(40px)',
+          willChange: 'transform',
+          transform: 'translateZ(0)',
           pointerEvents: 'none',
           zIndex: 0,
         }}

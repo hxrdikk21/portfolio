@@ -19,9 +19,35 @@ export default function AnimatedBackground() {
     let animId: number
     let t = 0
 
+    let offscreenCanvas: HTMLCanvasElement | null = null
+
     const resize = () => {
       canvas.width = window.innerWidth
       canvas.height = window.innerHeight
+
+      // Pre-render static background and grid lines to an offscreen canvas
+      offscreenCanvas = document.createElement('canvas')
+      offscreenCanvas.width = canvas.width
+      offscreenCanvas.height = canvas.height
+      const offCtx = offscreenCanvas.getContext('2d')
+      if (offCtx) {
+        offCtx.fillStyle = '#030303'
+        offCtx.fillRect(0, 0, canvas.width, canvas.height)
+
+        offCtx.strokeStyle = 'rgba(255,255,255,0.02)'
+        offCtx.lineWidth = 1
+        const gridSize = 80
+        offCtx.beginPath()
+        for (let x = 0; x < canvas.width; x += gridSize) {
+          offCtx.moveTo(x, 0)
+          offCtx.lineTo(x, canvas.height)
+        }
+        for (let y = 0; y < canvas.height; y += gridSize) {
+          offCtx.moveTo(0, y)
+          offCtx.lineTo(canvas.width, y)
+        }
+        offCtx.stroke()
+      }
     }
     resize()
     window.addEventListener('resize', resize)
@@ -41,19 +67,9 @@ export default function AnimatedBackground() {
 
       ctx.clearRect(0, 0, W, H)
 
-      // Base background
-      ctx.fillStyle = '#030303'
-      ctx.fillRect(0, 0, W, H)
-
-      // Subtle grid lines
-      ctx.strokeStyle = 'rgba(255,255,255,0.02)'
-      ctx.lineWidth = 1
-      const gridSize = 80
-      for (let x = 0; x < W; x += gridSize) {
-        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke()
-      }
-      for (let y = 0; y < H; y += gridSize) {
-        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke()
+      // Draw the pre-rendered grid (drastically reduces CPU usage)
+      if (offscreenCanvas) {
+        ctx.drawImage(offscreenCanvas, 0, 0)
       }
 
       // Drifting orbs
@@ -61,11 +77,14 @@ export default function AnimatedBackground() {
         const cx = (orb.x + Math.sin(t * orb.sx * 300) * 0.12) * W
         const cy = (orb.y + Math.cos(t * orb.sy * 300) * 0.10) * H
         const rad = orb.r * Math.min(W, H)
+        
         const grd = ctx.createRadialGradient(cx, cy, 0, cx, cy, rad)
         grd.addColorStop(0, orb.color)
         grd.addColorStop(1, 'transparent')
+        
         ctx.fillStyle = grd
-        ctx.fillRect(0, 0, W, H)
+        // Only fill the bounding box of the orb, not the whole screen (drastically reduces GPU overdraw)
+        ctx.fillRect(cx - rad, cy - rad, rad * 2, rad * 2)
       }
 
       animId = requestAnimationFrame(draw)

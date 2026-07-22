@@ -13,12 +13,21 @@ export default function DotBackground() {
     const el = spotRef.current
     if (!el) return
 
+    let frameId: number | null = null
+
     const move = (e: MouseEvent) => {
-      el.style.background = `radial-gradient(600px circle at ${e.clientX}px ${e.clientY}px, rgba(34,211,238,0.10) 0%, rgba(34,211,238,0.04) 30%, transparent 70%)`
+      if (frameId) return
+      frameId = requestAnimationFrame(() => {
+        el.style.background = `radial-gradient(600px circle at ${e.clientX}px ${e.clientY}px, rgba(34,211,238,0.10) 0%, rgba(34,211,238,0.04) 30%, transparent 70%)`
+        frameId = null
+      })
     }
 
     window.addEventListener('mousemove', move)
-    return () => window.removeEventListener('mousemove', move)
+    return () => {
+      window.removeEventListener('mousemove', move)
+      if (frameId) cancelAnimationFrame(frameId)
+    }
   }, [])
 
   return (
@@ -64,7 +73,7 @@ export default function DotBackground() {
           inset: 0,
           zIndex: 1,
           pointerEvents: 'none',
-          transition: 'background 0.1s ease',
+          willChange: 'background',
         }}
       />
     </>
