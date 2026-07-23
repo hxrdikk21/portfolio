@@ -21,6 +21,14 @@ export const metadata: Metadata = {
     'CSE student at Delhi Technological University. Specializing in full-stack MERN systems, end-to-end Machine Learning pipelines , and Innovative Solutions.',
   keywords: ['Hardik Sachdeva', 'full-stack developer', 'React', 'Node.js', 'portfolio', 'hackathon', 'Next.js', 'DTU', 'machine learning', 'MERN'],
   authors: [{ name: 'Hardik Sachdeva' }],
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon-hs.jpg', type: 'image/jpeg' },
+    ],
+    shortcut: '/favicon.svg',
+    apple: '/favicon-hs.jpg',
+  },
   openGraph: {
   title: 'Hardik Sachdeva — Developer · ML Engineer · Aspiring Entrepreneur',
   description:
